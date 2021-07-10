@@ -1,0 +1,26 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l short
+#$ -l s_vmem=4G,mem_req=4G
+#$ -pe def_slot 16
+#$ -o ./
+#$ -e ./
+
+source ~/.bashrc
+
+FASTQDUMP="/usr/local/pkg/sra-tools/2.5.7/bin/fastq-dump.2.5.7"
+Dbdir="/home/takeshik/tanomare/dstep20180126"
+
+# TARGETFILE="SRR2814766.sra"
+TARGETFILE="SRR2814761.sra"
+TARGET=$(basename ${TARGETFILE} .sra)
+
+
+singularity exec -B $HOME/tmp:/tmp -B $PWD /usr/local/biotools/s/sra-tools:2.9.6--hf484d3e_0 \
+  fasterq-dump \
+  ${TARGETFILE} \
+  -o ${TARGET}.fastq \
+  -e 16 \
+  -p
+

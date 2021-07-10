@@ -1,0 +1,27 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l epyc
+#$ -l s_vmem=16G,mem_req=16G
+#$ -N a02
+#$ -pe def_slot 1
+#$ -l d_rt=2:00:00
+#$ -l s_rt=2:00:00
+#$ -o ./log
+#$ -e ./log
+
+TARGETFILES=($(ls inputs | grep fastq))
+TARGETFILE=${TARGETFILES[0]}
+TARGETID=$(basename ${TARGETFILES[0]} .fastq)
+
+source ~/.bashrc
+# READCOLLAPSE="/lustre7/home/edge2992/myprojects/PARIS/SRA/icSHAPE/scripts/readCollapse.pl"
+READCOLLAPSE="/lustre7/home/edge2992/myprojects/PARIS/icSHAPE/bin/readCollapse"
+echo ${TARGETID}_trim3.fastq
+
+#バーコードを使用して、PCR重複をのぞく
+$READCOLLAPSE \
+   preprocessing/${TARGETID}_trim3.fastq \
+   preprocessing/${TARGETID}_trim3_nodup.fastq \
+   preprocessing/${TARGETID}_trim3_unique.fa
+

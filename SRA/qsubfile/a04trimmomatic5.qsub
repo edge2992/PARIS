@@ -1,0 +1,49 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l epyc
+#$ -N a04
+#$ -l s_vmem=4G,mem_req=4G
+#$ -pe def_slot 16
+#$ -l d_rt=2:00:00
+#$ -l s_rt=2:00:00
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS"
+
+TARGETFILES=($(ls inputs | grep fastq))
+TARGETFILE=${TARGETFILES[0]}
+TARGETID=$(basename ${TARGETFILES[0]} .fastq)
+
+echo $TARGETID
+source ~/.bashrc
+TRIMMOMATIC="/usr/local/biotools/t/trimmomatic:0.39--hdfd78af_2"
+
+array=($(ls library_split | grep fastq))
+echo ${array[0]}
+TARGET_BARCODE=$(basename ${array[0]} .fastq)
+
+#あとで並列化する
+
+singularity exec -B $PWD $TRIMMOMATIC /usr/local/bin/trimmomatic \
+  SE \
+  -threads 16 \
+  -phred33 \
+  library_split/${array[0]} \
+  pre_split/${TARGETID}_trim_nodup_${TARGET_BARCODE}.fastq \
+  HEADCROP:15 \
+  MINLEN:20 \
+  -trimlog ${TARGETID}_${TARGET_BARCODE}_log.txt \
+  -summary ${TARGETID}_${TARGET_BARCODE}_trimsummary.txt
+
+  # icSHAPE/data/adapter/TruSeq2-SE.fa \
+# Truseq2 GA2 machines
+# 許容ミスマッチ2,palindrome clip threshold 30 simple ciup threshold 4
+# LEADINGはリードの先頭からクオリティスコアが13未満の塩基を切り捨てる
+# TRAILINGはリードの末端からクオリティスコアが0未満の塩基を切り捨てる(おそらく切り捨てない)
+# MINLENは25塩基を満たないリードを除去する
+
+
+
+

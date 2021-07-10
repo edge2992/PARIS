@@ -1,0 +1,5 @@
+targetid: SRR2814766  # type "string"
+fastq:  # type "File"
+    class: File
+    path: SRR2814766_head10000.trim3_nodup.fastq
+barcode: CGTG:bc01::AGTG:bc2::CGTC:bc3::GGTG:bc4::others:unmatched

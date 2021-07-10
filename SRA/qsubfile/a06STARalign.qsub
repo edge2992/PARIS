@@ -1,0 +1,41 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -N a06
+#$ -l epyc
+#$ -l s_vmem=4G,mem_req=4G
+#$ -pe def_slot 20
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS"
+
+TARGETFILE="SRR2814766_head10000.fastq.gz"
+TARGETID=$(basename $TARGETFILE .fastq.gz)
+
+source ~/.bashrc
+TRIMMOMATIC="/usr/local/biotools/t/trimmomatic:0.39--hdfd78af_2"
+STAR='/usr/local/biotools/s/star:2.7.8a--0'
+
+array=($(ls pre_split | grep fastq))
+echo ${array[0]}
+TARGET_BARCODE=$(basename ${array[0]} .fastq)
+
+singularity exec --bind $PWD:$PWD $STAR STAR \
+  --runMode alignReads \
+  --genomeDir /home/edge2992/ref/mm10/STAR_reference \
+  --readFilesIn pre_split/${array[0]} \
+  --outSAMtype SAM \
+  --chimOutType Junctions SeparateSAMold \
+  --outFileNamePrefix star2/${TARGET_BARCODE}_starSS \
+  --outReadsUnmapped Fastq \
+  --outSAMattributes NH HI AS nM NM MD jM jI MC \
+  --alignIntronMin 1 \
+  --scoreGapNoncan -4 \
+  --scoreGapATAC -4 \
+  --chimSegmentMin 15 \
+  --chimJunctionOverhangMin 15 \
+  --runThreadN 16
+
+  # --chimJunctionOverhangMin 15 \
+  # minimunm overhang for a chimeric junction

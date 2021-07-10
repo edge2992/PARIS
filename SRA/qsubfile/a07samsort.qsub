@@ -1,0 +1,40 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l short
+#$ -l s_vmem=4G,mem_req=4G
+#$ -pe def_slot 16
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS"
+
+TARGETFILE="SRR2814766_head10000.fastq.gz"
+TARGETID=$(basename $TARGETFILE .fastq.gz)
+
+source ~/.bashrc
+TRIMMOMATIC="/usr/local/biotools/t/trimmomatic:0.39--hdfd78af_2"
+STAR='/usr/local/biotools/s/star:2.7.8a--0'
+SAMTOOLS='/usr/local/biotools/s/samtools:1.7--0'
+
+SAMarray=($(ls star | grep sam))
+TARGET_BARCODE=$(basename ${array[0]} .fastq)
+FILEPREFIX=$(basename ${SAMarray[0]} .out.sam)
+
+singularity exec --bind $PWD $SAMTOOLS samtools view -@ 16\
+  -bS star/${SAMarray[0]} \
+  > samtools/${FILEPREFIX}.out.bam
+
+singularity exec --bind $PWD $SAMTOOLS samtools sort -@ 16\
+  samtools/${FILEPREFIX}.out.bam \
+  -o samtools/${FILEPREFIX}.out_sorted.bam
+
+
+singularity exec --bind $PWD $SAMTOOLS samtools view -@ 16\
+  -b -F 0x900 \
+  -o samtools/${FILEPREFIX}_prim.out_sorted.bam \
+  samtools/${FILEPREFIX}.out_sorted.bam
+
+
+
+

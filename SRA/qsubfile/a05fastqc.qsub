@@ -1,0 +1,23 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l short
+#$ -l s_vmem=8G,mem_req=8G
+#$ -o ./
+#$ -e ./
+
+source ~/.bashrc
+
+TARGETFILES=($(ls inputs | grep fastq))
+TARGETFILE=${TARGETFILES[0]}
+TARGETID=$(basename ${TARGETFILES[0]} .fastq)
+echo $TARGETID
+
+array=($(ls pre_split | grep fastq))
+
+TARGETFILE="SRR2814766_head10000_trim_nodup_unmatched.fastq"
+
+singularity exec -B $PWD /usr/local/biotools/f/fastqc:0.11.9--0 fastqc \
+  -o ./reports pre_split/${array[0]}
+
+

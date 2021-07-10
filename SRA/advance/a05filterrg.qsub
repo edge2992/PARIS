@@ -1,0 +1,29 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -N a05filter
+#$ -l epyc
+#$ -l s_vmem=32G,mem_req=32G
+#$ -pe def_slot 1
+#$ -o ./log
+#$ -e ./log
+
+PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/paris"
+DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/duplex"
+
+TARGETFILE=($(ls samtools | grep prim_N))
+TARGETPREFIX=$(basename ${TARGETFILE} Aligned_prim_N.out_sorted.sam)
+mm10genome="/lustre7/home/edge2992/ref/mm10/Mus_musculus.GRCm38.dna.primary_assembly.fa"
+mm10annotation="/lustre7/home/edge2992/ref/mm10/Mus_musculus.GRCm38.95.gtf"
+# mm10chromsize="/lustre7/home/edge2992/ref/mm10/STAR_reference/chrLength.txt"
+mm10chromsize="/lustre7/home/edge2992/ref/mm10/STAR_reference/chrNameLength.txt"
+
+echo $TARGETFILE
+echo $TARGETPREFIX
+
+perl ${PARISPATH}/filterRG.pl \
+  ${TARGETPREFIX}_geometric \
+  ${TARGETPREFIX}_geometricsam \
+  ${TARGETPREFIX}_filterRG
+  # ${TARGETPREFIX}_geometricsam
+  

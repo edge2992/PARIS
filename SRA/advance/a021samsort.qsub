@@ -1,0 +1,44 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l short
+#$ -l s_vmem=4G,mem_req=4G
+#$ -pe def_slot 16
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS"
+
+TARGETFILE="SRR2814766_head10000.fastq.gz"
+TARGETID=$(basename $TARGETFILE .fastq.gz)
+
+source ~/.bashrc
+TRIMMOMATIC="/usr/local/biotools/t/trimmomatic:0.39--hdfd78af_2"
+STAR='/usr/local/biotools/s/star:2.7.8a--0'
+SAMTOOLS='/usr/local/biotools/s/samtools:1.7--0'
+
+TARGETFILE=($(ls samtools | grep prim_N))
+TARGETPREFIX=$(basename ${TARGETFILE} Aligned_prim_N.out_sorted.sam)
+
+# samtools view -bS -o a.bam MALAT1_AMT_Stress_trim_nodup_norm_starhg38_l15p2_geometric_common25_NGmin.sam
+# samtools sort a.bam a_sorted
+# samtools index a_sorted.bam
+
+echo $TARGETFILE
+echo $TARGETPREFIX
+
+singularity exec --bind $PWD $SAMTOOLS samtools view -@ 16\
+  -bS ${TARGETPREFIX}_geometric_NG-min.sam \
+  > NG/${TARGETPREFIX}.bam
+
+singularity exec --bind $PWD $SAMTOOLS samtools sort -@ 16\
+  NG/${TARGETPREFIX}.bam \
+  -o NG/${TARGETPREFIX}.sorted.bam
+
+singularity exec --bind $PWD $SAMTOOLS samtools index \
+  NG/${TARGETPREFIX}.sorted.bam
+
+
+
+
+

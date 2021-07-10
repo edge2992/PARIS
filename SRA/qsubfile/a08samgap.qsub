@@ -1,0 +1,44 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l short
+#$ -l s_vmem=3G,mem_req=3G
+#$ -pe def_slot 10
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS"
+
+TARGETFILE="SRR2814766_head10000.fastq.gz"
+TARGETID=$(basename $TARGETFILE .fastq.gz)
+
+source ~/.bashrc
+TRIMMOMATIC="/usr/local/biotools/t/trimmomatic:0.39--hdfd78af_2"
+STAR='/usr/local/biotools/s/star:2.7.8a--0'
+SAMTOOLS='/usr/local/biotools/s/samtools:1.7--0'
+
+# array=($(ls library_split | grep fastq))
+# echo ${array[0]}
+# TARGET_BARCODE=$(basename ${array[0]} .fastq)
+
+SAMarray=($(ls star | grep sam))
+FILEPREFIX=$(basename ${SAMarray[0]} .out.sam)
+
+# singularity exec --bind $PWD $SAMTOOLS samtools view -@ 10 \
+#   samtools/${FILEPREFIX}_prim.out_sorted.bam \
+#   > example/${FILEPREFIX}_prim_N.out_sorted.sam
+
+singularity exec --bind $PWD $SAMTOOLS samtools view -@ 10 \
+  samtools/${FILEPREFIX}_prim.out_sorted.bam \
+  | awk '$6 ~ /N/' \
+  > samtools/${FILEPREFIX}_prim_N.out_sorted.sam
+
+# headerファイルを追記
+singularity exec --bind $PWD $SAMTOOLS samtools view -H \
+   star/${SAMarray[0]} > data.tmp
+
+cat samtools/${FILEPREFIX}_prim_N.out_sorted.sam >> data.tmp
+
+cat data.tmp >  samtools/${FILEPREFIX}_prim_N.out_sorted.sam
+
+rm data.tmp

@@ -1,0 +1,18 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -N human
+#$ -l short
+#$ -l s_vmem=16G,mem_req=16G
+#$ -pe def_slot 1
+#$ -o ./log
+#$ -e ./log
+
+PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/paris"
+DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/duplex"
+RFAMPATH="/lustre7/home/edge2992/GenomeAnnotation/Rfam"
+
+/usr/bin/python ${DUPLEXPATH}/rfam2rna.py \
+  ${RFAMPATH}/Rfam.seed \
+  ${RFAMPATH}/Rfam.humanrna \
+  ${RFAMPATH}/Rfam_humanrna.fa

@@ -1,0 +1,32 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l epyc
+#$ -N a03
+#$ -l s_vmem=16G,mem_req=16G
+#$ -pe def_slot 1
+#$ -l d_rt=2:00:00
+#$ -l s_rt=2:00:00
+#$ -o ./log
+#$ -e ./log
+
+PROJECTPATH="/lustre7/home/edge2992/myprojects/PARIS/"
+
+TARGETFILES=($(ls inputs | grep fastq))
+TARGETFILE=${TARGETFILES[0]}
+TARGETID=$(basename ${TARGETFILES[0]} .fastq)
+
+source ~/.bashrc
+SPLITFASTQ="/lustre7/home/edge2992/myprojects/PARIS/icSHAPE/scripts/splitFastq.pl"
+
+perl $SPLITFASTQ \
+  -U preprocessing/${TARGETID}_trim3_nodup.fastq \
+  -l CGTG:bc01::AGTG:bc2::CGTC:bc3::GGTG::bc4::others:unmatched \
+  -b 6:4 \
+  -d library_split \
+  -s barcord.stat
+
+# library_splitのディレクトリに格納
+# 統計情報をhiseq_barcord.statに書き込む
+  # -l GGTT:LIB_DMSO1::TTGT:LIB_DMSO2::ACCT:LIB_NAI1.invivo::CAAT:LIB_NAI2.invivo::TGGC:LIB_NAI1.invitro::GGTC:LIB_NAI2.invitro::others:unmatched \
+  # -l AGTGAT:v0::CGTGAT::v1 \

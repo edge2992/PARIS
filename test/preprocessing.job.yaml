@@ -1,0 +1,10 @@
+threads: 8  # default value of type "int". (optional)
+outprefix: "out"  # default value of type "string". (optional)
+fastq:  # type "File"
+    class: File
+    path: ../SRR/SRR2814766.fastq
+adapter:  # type "File"
+    class: File
+    path: /home/edge2992/myprojects/PARIS/tools/icSHAPE/data/adapter/TruSeq2-SE.fa
+barcode: CGTG:bc01::AGTG:bc2::CGTC:bc3::GGTG:bc4::others:unmatched
+targetid: SRR2814766

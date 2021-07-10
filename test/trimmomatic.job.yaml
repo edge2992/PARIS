@@ -1,0 +1,9 @@
+threads: 1  # default value of type "int". (optional)
+outprefix: "out"  # default value of type "string". (optional)
+fastq:  # type "File"
+    class: File
+    path: ../tools/tmp/simple/SRR2814766_head10000.fastq
+adapter:  # type "File"
+    class: File
+    path: /home/edge2992/myprojects/PARIS/tools/icSHAPE/data/adapter/TruSeq2-SE.fa
+
