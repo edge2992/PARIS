@@ -1,0 +1,23 @@
+#!/bin/sh
+#$ -S /bin/sh
+#$ -N STAR_index3
+#$ -cwd 
+#$ -l s_vmem=4G,mem_req=4G
+#$ -l short
+#$ -l d_rt=3:00:00
+#$ -l s_rt=3:00:00
+### #$ -l debug
+#$ -pe def_slot 12
+#$ -o ./log
+#$ -e ./log
+
+source ~/.bashrc
+
+STAR='/usr/local/biotools/s/star:2.7.8a--0'
+
+singularity exec --bind $PWD:$PWD $STAR STAR \
+  --runThreadN 12 \
+  --runMode genomeGenerate --genomeDir STAR_reference \
+  --genomeFastaFiles ref/Rfam_humanrna.fa \
+  --genomeSAindexNbases 6 \
+  --limitGenomeGenerateRAM=40000000000 \

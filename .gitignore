@@ -1,0 +1,17 @@
+*.sra
+*.fastq
+SRA/log
+scripts
+tools/icSHAPE
+tools/paris
+tools/duplex
+tools/tmp
+*.sif
+test/log
+SRR
+SRA
+test/SRR*
+ref
+
+
+
