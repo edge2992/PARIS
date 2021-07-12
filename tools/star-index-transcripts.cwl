@@ -9,11 +9,16 @@ label: star-index-v2.4.8a
 requirements:
   InlineJavascriptRequirement: {}
   DockerRequirement:
-    dockerPull: biocontainers/star:2.7.8a--0
+    dockerPull: quay.io/biocontainers/star:2.7.8a--0
+  InitialWorkDirRequirement:
+    listing:
+      - entryname: generated_STAR_genome_dir
+        entry: $(inputs.genomeDir)
+        writable: true
 
-baseCommand: [STAR, --runMode genomeGenerate]
 
-arguments:
+baseCommand: [STAR, --runMode, genomeGenerate]
+
 inputs:
   threads:
     type: int?
@@ -26,33 +31,28 @@ inputs:
     inputBinding:
       prefix: --genomeFastaFiles
   SAindexN:
-    type: int
+    type: int?
     inputBinding:
       prefix: --genomeSAindexNbases
+  limitRAM:
+    type: long
+    default: 40000000000
+    inputBinding:
+      prefix: --limitGenomeGenerateRAM=
+      separate: false
+  genomeDir:
+    type: Directory
+    inputBinding:
+      valueFrom: generated_STAR_genome_dir
+      prefix: --genomeDir
+
+arguments:
 
 outputs:
-  # - id: amb
-  #   type: File
-  #   outputBinding:
-  #     glob: $(inputs.reference.basename).amb
-  # - id: ann
-  #   type: File
-  #   outputBinding:
-  #     glob: $(inputs.reference.basename).ann
-  # - id: bwt
-  #   type: File
-  #   outputBinding:
-  #     glob: $(inputs.reference.basename).bwt
-  # - id: pac
-  #   type: File
-  #   outputBinding:
-  #     glob: $(inputs.reference.basename).pac
-  # - id: sa
-  #   type: File
-  #   outputBinding:
-  #     glob: $(inputs.reference.basename).sa
-  # - id: log
-  #   type: stderr
+  indices:
+    type: Directory
+    outputBinding:
+      glob: generated_STAR_genome_dir
 
 # stderr: $(inputs.reference.basename).bwa-index.log
 
