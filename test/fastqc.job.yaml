@@ -1,0 +1,5 @@
+threads: 15  # default value of type "int". (optional)
+fastq:  # type "File"
+    class: File
+    path: ../SRR/SRR2814761.fastq
+    # path: ../tools/tmp/simple/SRR2814766_head10000.fastq

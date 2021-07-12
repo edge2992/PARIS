@@ -1,0 +1,10 @@
+threads: 30  # default value of type "int". (optional)
+reference:  # type "File"
+    class: File
+    path: ../reference/RefSeq/GRCh38_latest_rna.fna
+genomeDir:  # type "Directory"
+    class: Directory
+    path: ../reference/RefSeq
+    # generated_STAR_genome_dir
+limitRAM: 120000000000  # default value of type "long".
+SAindexN: 12  # type "int"

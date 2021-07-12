@@ -1,4 +1,4 @@
-threads: 16  # default value of type "int". (optional)
+threads: 30  # default value of type "int". (optional)
 outprefix: "out"  # default value of type "string". (optional)
 fastq:  # type "File"
     class: File
@@ -6,5 +6,6 @@ fastq:  # type "File"
 adapter:  # type "File"
     class: File
     path: /home/edge2992/myprojects/PARIS/tools/icSHAPE/data/adapter/TruSeq2-SE.fa
-barcode: CGTG:bc01::AGTG:bc2::CGTC:bc3::GGTG:bc4::others:unmatched
+# barcode: CGTG:bc01::AGTG:bc2::CGTC:bc3::GGTG:bc4::others:unmatched
+barcode: AATC:bc01::AATT:bc02::AATA:bc03::AATG:bc04::GTTA:bc05::TGTC:bc06::others:unmatched
 targetid: SRR2814761

@@ -1,0 +1,8 @@
+threads: 30  # default value of type "int".
+reference:  # type "Directory"
+    class: Directory
+    path: /home/edge2992/ref/human/STAR_reference
+outprefix: HeLa1_bc01  # type "string"
+fastq:  # type "File"
+    class: File
+    path: SRR2814761/bc01.fastq

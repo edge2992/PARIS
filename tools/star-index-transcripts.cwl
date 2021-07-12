@@ -12,8 +12,7 @@ requirements:
     dockerPull: quay.io/biocontainers/star:2.7.8a--0
   InitialWorkDirRequirement:
     listing:
-      - entryname: generated_STAR_genome_dir
-        entry: $(inputs.genomeDir)
+      - entry: $(inputs.genomeDir)
         writable: true
 
 
@@ -43,7 +42,6 @@ inputs:
   genomeDir:
     type: Directory
     inputBinding:
-      valueFrom: generated_STAR_genome_dir
       prefix: --genomeDir
 
 arguments:
@@ -52,7 +50,7 @@ outputs:
   indices:
     type: Directory
     outputBinding:
-      glob: generated_STAR_genome_dir
+      glob: $(inputs.genomeDir.basename)
 
 # stderr: $(inputs.reference.basename).bwa-index.log
 

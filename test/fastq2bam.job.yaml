@@ -1,0 +1,8 @@
+threads: 16  # default value of type "int".
+reference:  # type "Directory"
+    class: Directory
+    path: /home/edge2992/ref/mm10/STAR_reference
+outprefix: a_string  # type "string"
+fastq:  # type "File"
+    class: File
+    path: ../tools/tmp/simple2G/library_split/bc2.fastq
