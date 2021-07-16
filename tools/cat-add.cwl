@@ -24,7 +24,7 @@ inputs:
     inputBinding:
       position: 2
 
-stdout: $(inputs.content.basename.split('.')[0])_prim_Nh.sam
+stdout: $(inputs.content.basename.split('.')[0])h.sam
 
 outputs:
   - id: prim_nh

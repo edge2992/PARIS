@@ -9,4 +9,4 @@
 #$ -e ./log
 
 cwltool --singularity \
-  --outdir SRR2814761 ../workflows/fastq2bam.cwl HeLa1_bc01refseq.job.yaml
+  --outdir SRR2814761/refseq ../workflows/fastq2bam.cwl HeLa1_bc01refseq.job.yaml

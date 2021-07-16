@@ -9,10 +9,9 @@ label: samtools-sam2bam-v1.9
 requirements:
     InlineJavascriptRequirement: {}
     DockerRequirement:
-        dockerPull: quay.io/biocontainers/samtools:1.9--h10a08f8_12
+        dockerPull: quay.io/biocontainers/samtools:1.7--0
 
-
-baseCommand: [ samtools, view, -b ]
+baseCommand: [ samtools, view, -bS ]
 
 inputs:
   sam:
@@ -27,7 +26,6 @@ inputs:
 
 arguments:
    - $(inputs.sam)
-
 
 stdout: $(inputs.sam.nameroot).bam
 # stderr: samtools.log 

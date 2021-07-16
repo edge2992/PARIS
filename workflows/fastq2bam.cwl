@@ -20,6 +20,8 @@ inputs:
     type: int
     default: 10
     doc: max number of multiple alignments allowed for a read unmapped
+  Joverhang:
+    type: int?
   threads:
     type: int
     default: 1
@@ -32,6 +34,8 @@ steps:
       refdir: reference
       fastq: fastq
       outprefix: outprefix
+      multimapN: multimapN
+      Joverhang: Joverhang
       threads: threads
     out: [alignedsam, chimericsam, junction, log]
 

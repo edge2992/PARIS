@@ -3,8 +3,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-id: samtools-sam2bam-v1.9
-label: samtools-sam2bam-v1.9
+id: samtools-primary-v1.9
+label: samtools-primary-v1.9
 
 requirements:
     InlineJavascriptRequirement: {}

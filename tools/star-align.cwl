@@ -29,6 +29,10 @@ inputs:
     type: int?
     inputBinding:
       prefix: --outFilterMultimapNmax
+  Joverhang:
+    type: int?
+    inputBinding:
+      prefix: --alignSJoverhangMin
   threads:
     type: int?
     default: 1
