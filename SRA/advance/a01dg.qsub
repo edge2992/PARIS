@@ -8,7 +8,7 @@
 #$ -o ./log
 #$ -e ./log
 
-PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/paris"
+PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/tools/paris"
 
 TARGETFILE=($(ls samtools | grep prim_N))
 TARGETPREFIX=$(basename ${TARGETFILE} Aligned_prim_N.out_sorted.sam)

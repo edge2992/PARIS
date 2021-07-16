@@ -8,8 +8,8 @@
 #$ -o ./log
 #$ -e ./log
 
-PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/paris"
-DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/duplex"
+PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/tools/paris"
+DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/tools/duplex"
 
 TARGETFILE=($(ls samtools | grep prim_N))
 TARGETPREFIX=$(basename ${TARGETFILE} Aligned_prim_N.out_sorted.sam)

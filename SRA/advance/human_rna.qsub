@@ -8,8 +8,8 @@
 #$ -o ./log
 #$ -e ./log
 
-PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/paris"
-DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/duplex"
+PARISPATH="/lustre7/home/edge2992/myprojects/PARIS/tools/paris"
+DUPLEXPATH="/lustre7/home/edge2992/myprojects/PARIS/tools/duplex"
 RFAMPATH="/lustre7/home/edge2992/GenomeAnnotation/Rfam"
 
 /usr/bin/python ${DUPLEXPATH}/rfam2rna.py \
